@@ -20,17 +20,20 @@ import javafx.scene.input.*;
 public class KiGlass {
 
     private DoubleProperty width;
+    private DoubleProperty opacity;
     private DoubleProperty height;
     private Node node;
     private Node content;
     private KiJob onSelect;
     private Rectangle flare;
     private Group contentGroup;
-    //private ObjectProperty<Node> hover;
+    Group backGroup;
 
+    //private ObjectProperty<Node> hover;
     public KiGlass() {
 	width = new DoubleProperty(90);
 	height = new DoubleProperty(60);
+	opacity = new DoubleProperty(0.1);
 
 	Rectangle t = new Rectangle();
 	t.setFill(Color.web("#ff0000"));
@@ -39,7 +42,7 @@ public class KiGlass {
 	content = t;
 
 
-	Group backGroup = new Group();
+	backGroup = new Group();
 
 	Rectangle r1 = new Rectangle();
 	r1.setArcHeight(8);
@@ -89,7 +92,7 @@ public class KiGlass {
 	flare.heightProperty().bind(height);
 	flare.setFill(Color.web("#ffffff00"));
 	Stop[] s5 = new Stop[]{new Stop(0, Color.web("#ffffffcc")), new Stop(0.99, Color.web("#ffffff33")), new Stop(1, Color.web("#ffffff00"))};
-	LinearGradient g5 = new LinearGradient(0, 0, 0.1, 0.5, true, CycleMethod.NO_CYCLE, s5);
+	LinearGradient g5 = new LinearGradient(0, 0, 0.05, 0.5, true, CycleMethod.NO_CYCLE, s5);
 	flare.setFill(g5);
 	flare.setOnMousePressed(new EventHandler<MouseEvent>() {
 
@@ -99,16 +102,36 @@ public class KiGlass {
 		}
 	    }
 	});
+	flare.hoverProperty().addListener(new ChangeListener<Boolean>() {
 
+	    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+		onHover();
+	    }
+	});
+	opacity.addListener(new InvalidationListener<Number>() {
+
+	    public void invalidated(ObservableValue<? extends Number> observable) {
+		onHover();
+	    }
+	});
 	Group root = new Group();
 	root.getChildren().add(backGroup);
 	contentGroup = new Group();
 	contentGroup.getChildren().add(content);
-	root.getChildren().add(contentGroup);
+	backGroup.getChildren().add(contentGroup);
 	root.getChildren().add(flare);
 	node = root;
 
 	onSelect = new KiJob();
+    }
+
+    void onHover() {
+	//System.out.println(flare.isHover());
+	if (flare.isHover()) {
+	    flare.setOpacity(1.0);
+	} else {
+	    flare.setOpacity(0.1);
+	}
     }
 
     public Node node() {
