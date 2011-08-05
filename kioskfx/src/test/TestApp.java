@@ -1,13 +1,21 @@
 package test;
 
 import javafx.application.*;
+import javafx.beans.value.*;
 import javafx.event.*;
-import javafx.event.*;
-import javafx.scene.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.paint.*;
 import javafx.stage.*;
+import javafx.animation.*;
+import javafx.util.*;
+import java.util.*;
+import javafx.scene.image.*;
+import javafx.scene.shape.*;
+import javafx.beans.property.*;
+import javafx.beans.value.*;
+import javafx.scene.image.*;
+import javafx.scene.input.*;
 import kioskfx.*;
 
 public class TestApp extends Application {
@@ -34,6 +42,25 @@ public class TestApp extends Application {
 	root.getChildren().add(btn);
 	
 	KiGlass glass=new KiGlass();
+        DoubleProperty w=new DoubleProperty ();
+        DoubleProperty h=new DoubleProperty ();
+        w.set(350);
+        h.set(250);
+        
+        glass.width(w) ;
+        glass.height(h) ;
+        
+        
+        Rectangle t = new Rectangle();
+        t.setFill(Color.web("#ff0000"));
+        t.setWidth(30);
+        t.setHeight(50);
+        glass.content(t) ;
+        t.setFill(Color.web("#663300"));
+        t.setHeight(90);
+        t.setWidth(120);
+        
+        //glass.w
 	glass.node().setTranslateX(20);
 	glass.node().setTranslateY(30);
 	root.getChildren().add(glass.node());
