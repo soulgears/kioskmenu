@@ -49,6 +49,7 @@ public class TestApp extends Application {
         
         glass.width(w) ;
         glass.height(h) ;
+        w.set(99);
         
         
         Rectangle t = new Rectangle();
@@ -58,7 +59,7 @@ public class TestApp extends Application {
         glass.content(t) ;
         t.setFill(Color.web("#663300"));
         t.setHeight(90);
-        t.setWidth(120);
+        t.setWidth(220);
         
         //glass.w
 	glass.node().setTranslateX(20);

@@ -16,6 +16,8 @@ import javafx.beans.property.*;
 import javafx.beans.value.*;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
+import javafx.geometry.*;
+import javafx.scene.transform.*;
 
 public class KiGlass {
 
@@ -27,10 +29,14 @@ public class KiGlass {
     private KiJob onSelect;
     private Rectangle flare;
     private Group contentGroup;
+    //private DoubleProperty contentGroupW;
+    //private DoubleProperty contentGroupH;
     Group backGroup;
     //private ObjectProperty<Node> content;
 
     public KiGlass() {
+        //contentGroupW = new DoubleProperty(0);
+        //contentGroupH = new DoubleProperty(0);
         width = new DoubleProperty(90);
         height = new DoubleProperty(60);
         opacity = new DoubleProperty(0.1);
@@ -39,7 +45,7 @@ public class KiGlass {
         t.setFill(Color.web("#ff0000"));
         //t.setWidth(30);
         //t.setHeight(50);
-        content= t;
+        content = t;
 
 
         backGroup = new Group();
@@ -117,7 +123,21 @@ public class KiGlass {
         Group root = new Group();
         root.getChildren().add(backGroup);
         contentGroup = new Group();
+
+        contentGroup //.boundsInParentProperty() 
+                .boundsInLocalProperty().addListener(new InvalidationListener<Bounds>() {
+
+            public void invalidated(ObservableValue<? extends Bounds> observable) {
+                //System.out.println("b "+ observable.getValue());
+                adjust();
+            }
+        });
+        //System.out.println(contentGroup.boundsInParentProperty().get());
+        //contentGroup.setScaleX(0.5);
+        contentGroup.boundsInLocalProperty() //.boundsInParentProperty()
+                .getValue();//bug
         contentGroup.getChildren().add(content);
+        //System.out.println(contentGroup.boundsInParentProperty().get());
         backGroup.getChildren().add(contentGroup);
         root.getChildren().add(flare);
         node = root;
@@ -126,15 +146,38 @@ public class KiGlass {
     }
 
     void adjust() {
-        //System.out.println(flare.isHover());
+        //System.out.println("aaa");
         if (flare.isHover()) {
             flare.setOpacity(1.0);
         } else {
             flare.setOpacity(0.1);
         }
+        double cw = content.getBoundsInLocal().getWidth();
+        double ch = content.getBoundsInLocal().getHeight();
+        //double cm = cw > ch ? cw : ch;
+        //double nm = width.get() > height.get() ? height.get() : width.get();
+        //System.out.println(cm+" / "+  cw  +" / "+ ch);
+        if (cw > 0 && ch > 0 && width.get() > 0 && height.get() > 0) {
+            //double nm = width.get() > height.get() ? height.get() : width.get();
+            //System.out.println(cm+" / "+  nm);
+            //contentGroup.setScaleX(nm/cm);
+            //contentGroup.setScaleY(nm/cm);
+            double wScale = width.get() / (cw + 16);
+            double hScale = height.get() / (ch + 16);
+            double s = wScale < hScale ? wScale : hScale;
+            Scale t = new Scale(s, s, 0, 0);
+            contentGroup.getTransforms().clear();
+            contentGroup.getTransforms().add(t);
+            //System.out.println(cm + " / " + nm + " / " + t);
+            double wt = (width.get() - cw * s-16) / 2 + 8;
+            double ht = (height.get() - ch * s-16) / 2 + 8;
+            contentGroup.setTranslateX(wt);
+            contentGroup.setTranslateY(ht);
+        }
     }
 
     public Node node() {
+        adjust();
         return node;
     }
 
@@ -142,19 +185,22 @@ public class KiGlass {
         this.content = n;
         contentGroup.getChildren().clear();
         contentGroup.getChildren().add(content);
+        adjust();
         //content.getBoundsInLocal().getWidth();
-        contentGroup.translateXProperty().bind(width.subtract(content.boundsInLocalProperty().getValue().getWidth()).divide(2));
-        contentGroup.translateYProperty().bind(height.subtract(content.boundsInLocalProperty().getValue().getHeight()).divide(2));
+        //contentGroup.translateXProperty().bind(width.subtract(content.boundsInLocalProperty().getValue().getWidth()).divide(2));
+        //contentGroup.translateYProperty().bind(height.subtract(content.boundsInLocalProperty().getValue().getHeight()).divide(2));
         return this;
     }
 
     public KiGlass width(DoubleProperty nn) {
         this.width.bind(nn);
+        adjust();
         return this;
     }
 
     public KiGlass height(DoubleProperty nn) {
         this.height.bind(nn);
+        adjust();
         return this;
     }
 }
