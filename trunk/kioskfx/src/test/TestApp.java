@@ -28,7 +28,7 @@ public class TestApp extends Application {
     public void start(Stage primaryStage) {
 	primaryStage.setTitle("TestApp");
 	Group root = new Group();
-	Scene scene = new Scene(root, 600, 450, Color.LIGHTGREEN);
+	Scene scene = new Scene(root, 600, 450, Color.web("#333333"));
 	Button btn = new Button();
 	btn.setLayoutX(100);
 	btn.setLayoutY(80);
@@ -49,17 +49,18 @@ public class TestApp extends Application {
         
         glass.width(w) ;
         glass.height(h) ;
-        w.set(99);
+        //w.set(99);
         
         
-        Rectangle t = new Rectangle();
-        t.setFill(Color.web("#ff0000"));
-        t.setWidth(30);
-        t.setHeight(50);
-        glass.content(t) ;
-        t.setFill(Color.web("#663300"));
-        t.setHeight(90);
-        t.setWidth(220);
+        Rectangle tRect = new Rectangle();
+        tRect.setFill(Color.web("#ff0000"));
+        tRect.setWidth(30);
+        tRect.setHeight(50);
+        glass.content(tRect) ;
+        tRect.setFill(Color.web("#663300"));
+        tRect.setWidth(20);
+        tRect.setHeight(10);
+        
         
         //glass.w
 	glass.node().setTranslateX(20);
