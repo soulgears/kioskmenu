@@ -34,6 +34,7 @@ public class KiGlass {
     //private double glassOpacity;
     //private boolean isFocused;
     private BooleanProperty active;
+    
     Group backGroup;
 
     public KiGlass() {
@@ -41,6 +42,7 @@ public class KiGlass {
         height = new DoubleProperty(60);
         opacity = new DoubleProperty(0.99);
         active = new BooleanProperty(false);
+        
         //glassOpacity = 0.1;
         //isFocused = false;
         Rectangle t = new Rectangle();
@@ -227,4 +229,5 @@ public class KiGlass {
         adjust();
         return this;
     }
+    
 }

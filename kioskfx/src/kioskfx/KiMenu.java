@@ -29,6 +29,7 @@ public class KiMenu {
     private ObjectProperty<Color> fogC;
     private ImageView imageView;
     private Text label;
+    private Vector<KiSection>sections;
 
     public KiMenu() {
         width = new DoubleProperty(900);
@@ -40,6 +41,7 @@ public class KiMenu {
         t.widthProperty().bind(width);
         t.heightProperty().bind(height);
         root.getChildren().add(t);*/
+        sections=new Vector<KiSection>();
         
 
         Image backgroundImage = new Image(this.getClass().getResourceAsStream("bg.jpg"));
@@ -126,6 +128,12 @@ public class KiMenu {
     public KiMenu height(DoubleProperty nn) {
         this.height.bind(nn);
         adjust();
+        return this;
+    }
+    public KiMenu section(KiSection it) {
+        //this.width.bind(nn);
+        //adjust();
+        sections.add(it);
         return this;
     }
 }
