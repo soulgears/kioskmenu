@@ -18,6 +18,7 @@ import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.geometry.*;
 import javafx.scene.transform.*;
+import javafx.scene.effect.*;
 
 public class KiGlass {
 
@@ -29,6 +30,7 @@ public class KiGlass {
     private KiJob onSelect;
     private Rectangle flare;
     private Group contentGroup;
+    private Group shadowGroup;
     //private DoubleProperty contentGroupW;
     //private DoubleProperty contentGroupH;
     Group backGroup;
@@ -123,7 +125,7 @@ public class KiGlass {
         Group root = new Group();
         root.getChildren().add(backGroup);
         contentGroup = new Group();
-
+        shadowGroup = new Group();
         contentGroup //.boundsInParentProperty() 
                 .boundsInLocalProperty().addListener(new InvalidationListener<Bounds>() {
 
@@ -134,46 +136,49 @@ public class KiGlass {
         });
         //System.out.println(contentGroup.boundsInParentProperty().get());
         //contentGroup.setScaleX(0.5);
+        DropShadow ds = new DropShadow();
+
+        shadowGroup.setEffect(ds);
         contentGroup.boundsInLocalProperty() //.boundsInParentProperty()
                 .getValue();//bug
         contentGroup.getChildren().add(content);
         //System.out.println(contentGroup.boundsInParentProperty().get());
-        backGroup.getChildren().add(contentGroup);
+        backGroup.getChildren().add(shadowGroup);
+        shadowGroup.getChildren().add(contentGroup);
         root.getChildren().add(flare);
         node = root;
 
         onSelect = new KiJob();
     }
 
-    void adjust() {
-        //System.out.println("aaa");
+    void adjustSize() {
+        double contentWidth = content.getBoundsInLocal().getWidth();
+        double contentHeight = content.getBoundsInLocal().getHeight();
+        if (contentWidth > 0 && contentHeight > 0 && width.get() > 0 && height.get() > 0) {
+            double widthScale = (width.get()-16) / contentWidth ;
+            double heightScale =( height.get()-16) / contentHeight ;
+            double scaleSize = widthScale < heightScale ? widthScale : heightScale;
+            Scale scaleTransform = new Scale(scaleSize, scaleSize, 0, 0);
+            contentGroup.getTransforms().clear();
+            contentGroup.getTransforms().add(scaleTransform);
+            double xShift = (width.get() - contentWidth * scaleSize - 16) / 2 + 8;
+            double yShift = (height.get() - contentHeight * scaleSize - 16) / 2 + 8;
+            contentGroup.setTranslateX(xShift);
+            contentGroup.setTranslateY(yShift);
+        }
+    }
+
+    void adjustOpacity() {
         if (flare.isHover()) {
             flare.setOpacity(1.0);
         } else {
             flare.setOpacity(0.1);
         }
-        double cw = content.getBoundsInLocal().getWidth();
-        double ch = content.getBoundsInLocal().getHeight();
-        //double cm = cw > ch ? cw : ch;
-        //double nm = width.get() > height.get() ? height.get() : width.get();
-        //System.out.println(cm+" / "+  cw  +" / "+ ch);
-        if (cw > 0 && ch > 0 && width.get() > 0 && height.get() > 0) {
-            //double nm = width.get() > height.get() ? height.get() : width.get();
-            //System.out.println(cm+" / "+  nm);
-            //contentGroup.setScaleX(nm/cm);
-            //contentGroup.setScaleY(nm/cm);
-            double wScale = width.get() / (cw + 16);
-            double hScale = height.get() / (ch + 16);
-            double s = wScale < hScale ? wScale : hScale;
-            Scale t = new Scale(s, s, 0, 0);
-            contentGroup.getTransforms().clear();
-            contentGroup.getTransforms().add(t);
-            //System.out.println(cm + " / " + nm + " / " + t);
-            double wt = (width.get() - cw * s-16) / 2 + 8;
-            double ht = (height.get() - ch * s-16) / 2 + 8;
-            contentGroup.setTranslateX(wt);
-            contentGroup.setTranslateY(ht);
-        }
+    }
+
+    void adjust() {
+        adjustOpacity();
+        adjustSize();
     }
 
     public Node node() {
