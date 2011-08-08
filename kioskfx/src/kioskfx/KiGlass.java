@@ -39,8 +39,8 @@ public class KiGlass {
     public KiGlass() {
         width = new DoubleProperty(90);
         height = new DoubleProperty(60);
-        opacity = new DoubleProperty(0.5);
-        active=new BooleanProperty(false);
+        opacity = new DoubleProperty(0.99);
+        active = new BooleanProperty(false);
         //glassOpacity = 0.1;
         //isFocused = false;
         Rectangle t = new Rectangle();
@@ -181,8 +181,8 @@ public class KiGlass {
             flare.setOpacity(1.0);
             //backGroup.setOpacity(1.0);
             if (node != null) {
-                    node.setOpacity(1.0);
-                }
+                node.setOpacity(1.0);
+            }
         } else {
             if (active.get()) {
                 flare.setOpacity(1.0);
