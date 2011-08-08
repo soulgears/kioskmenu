@@ -28,7 +28,12 @@ public class TestApp extends Application {
     public void start(Stage primaryStage) {
 	primaryStage.setTitle("TestApp");
 	Group root = new Group();
-	Scene scene = new Scene(root, 600, 450, Color.web("#333333"));
+	Scene scene = new Scene(root);//, 20, 20, Color.web("#333333"));
+        scene.setFill(Color.web("#333333"));
+        primaryStage.setWidth(1000);
+        primaryStage.setHeight(700);
+        /*
+        System.out.println(scene.getHeight());
 	Button btn = new Button();
 	btn.setLayoutX(100);
 	btn.setLayoutY(80);
@@ -59,7 +64,7 @@ public class TestApp extends Application {
         glass.content(tRect) ;
         tRect.setFill(Color.web("#663300"));
         tRect.setWidth(20);
-        tRect.setHeight(10);
+        tRect.setHeight(20);
         
         
         //glass.w
@@ -68,6 +73,18 @@ public class TestApp extends Application {
 	root.getChildren().add(glass.node());
 	
 	primaryStage.setScene(scene);
+	primaryStage.setVisible(true);
+        w.set(150);
+        */
+        KiMenu menu=new KiMenu();
+        root.getChildren().add(menu.node());
+        //menu.node().setTranslateX(50);
+	//menu.node().setTranslateY(50);
+        menu.width(primaryStage.widthProperty());
+        menu.height(primaryStage.heightProperty());
+        
+        
+        primaryStage.setScene(scene);
 	primaryStage.setVisible(true);
     }
 }
