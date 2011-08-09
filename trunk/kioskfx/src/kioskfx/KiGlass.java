@@ -223,7 +223,11 @@ public class KiGlass {
         adjust();
         return this;
     }
-
+public KiGlass opacity(DoubleProperty nn) {
+        this.opacity.bind(nn);
+        adjust();
+        return this;
+    }
     public KiGlass height(DoubleProperty nn) {
         this.height.bind(nn);
         adjust();
