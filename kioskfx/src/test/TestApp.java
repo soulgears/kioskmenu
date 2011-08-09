@@ -90,5 +90,6 @@ public class TestApp extends Application {
         menu.section(new KiSection().title("First"));
         menu.section(new KiSection().title("Secont"));
         menu.section(new KiSection().title("Third"));
+        menu.iconWidth(300).iconHeight(200).leftMargin(300).topMargin(50);
     }
 }
