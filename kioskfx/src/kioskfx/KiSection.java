@@ -56,7 +56,10 @@ public class KiSection {
         opacity.set(nn);
         return this;
     }
-
+ public KiSection active(boolean nn) {
+        glass.active(nn);
+        return this;
+    }
     public KiSection title(String it) {
         this.title = it;
         return this;

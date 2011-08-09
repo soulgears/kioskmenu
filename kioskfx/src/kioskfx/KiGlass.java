@@ -34,7 +34,6 @@ public class KiGlass {
     //private double glassOpacity;
     //private boolean isFocused;
     private BooleanProperty active;
-    
     Group backGroup;
 
     public KiGlass() {
@@ -42,7 +41,7 @@ public class KiGlass {
         height = new DoubleProperty(60);
         opacity = new DoubleProperty(0.99);
         active = new BooleanProperty(false);
-        
+
         //glassOpacity = 0.1;
         //isFocused = false;
         Rectangle t = new Rectangle();
@@ -218,23 +217,32 @@ public class KiGlass {
         return this;
     }
 
+    public KiGlass active(boolean nn) {
+        active.set(nn);
+        adjust();
+        return this;
+    }
+
     public KiGlass width(DoubleProperty nn) {
         this.width.bind(nn);
         adjust();
         return this;
     }
-public KiGlass opacity(DoubleProperty nn) {
+
+    public KiGlass opacity(DoubleProperty nn) {
         this.opacity.bind(nn);
         adjust();
         return this;
     }
+
     public KiGlass height(DoubleProperty nn) {
         this.height.bind(nn);
         adjust();
         return this;
     }
-     public KiGlass onSelect(KiJob it) {
-        onSelect=it;
+
+    public KiGlass onSelect(KiJob it) {
+        onSelect = it;
         return this;
     }
 }

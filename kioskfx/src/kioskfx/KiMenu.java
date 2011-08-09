@@ -139,29 +139,34 @@ public class KiMenu {
         double rtsz = 1.0 / ((0.0 + width.get() - leftMargin.get()) / iconWidth.get());
         double ltsz = 1.0 / ((0.0 + leftMargin.get() + iconWidth.get()) / iconWidth.get());
         for (int i = 0; i < sections.size(); i++) {
-            int diff = currentSection.get() - i;
-            if (diff < 0) {        // right
-                double opcty = 1.0 + diff * rtsz;
-                if (opcty < 0) {
-                    opcty = 0;
-                }
-                if (opcty > 1) {
-                    opcty = 1;
-                }
-                sections.get(i).opacity(opcty);
-            } else {
-                if (diff > 0) {    // left
-                    double o = 1.0 - diff * ltsz;
-                    if (o < 0) {
-                        o = 0;
+            if (i != this.currentSection.get()) {
+                sections.get(i).active(false);
+                int diff = currentSection.get() - i;
+                if (diff < 0) {        // right
+                    double rOpcty = 1.0 + diff * rtsz;
+                    if (rOpcty < 0) {
+                        rOpcty = 0;
                     }
-                    if (o > 1) {
-                        o = 1;
+                    if (rOpcty > 1) {
+                        rOpcty = 1;
                     }
-                    sections.get(i).opacity(o);
+                    sections.get(i).opacity(0.5 * rOpcty);
                 } else {
-                    sections.get(i).opacity(1.0);
+                    //if (diff > 0) {    // left
+                    double lOpcty = 1.0 - diff * ltsz;
+                    if (lOpcty < 0) {
+                        lOpcty = 0;
+                    }
+                    if (lOpcty > 1) {
+                        lOpcty = 1;
+                    }
+                    sections.get(i).opacity(0.5 * lOpcty);
+                    //} else {
+                    //  sections.get(i).opacity(1.0);
+                    //}
                 }
+            } else {
+                sections.get(i).active(true);
             }
         }
     }
