@@ -189,6 +189,7 @@ public class KiMenu {
             }
         };
         it.order(sections.size()).width(iconWidth).height(iconHeight).onSelect(job);
+        //it.image(new Image(this.getClass().getResourceAsStream("section.png")));
         sections.add(it);
         sectionsGroup.getChildren().add(it.node());
         return this;
