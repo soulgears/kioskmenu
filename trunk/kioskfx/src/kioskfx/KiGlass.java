@@ -229,5 +229,8 @@ public class KiGlass {
         adjust();
         return this;
     }
-    
+     public KiGlass onSelect(KiJob it) {
+        onSelect=it;
+        return this;
+    }
 }
