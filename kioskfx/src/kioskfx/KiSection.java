@@ -28,18 +28,25 @@ public class KiSection {
     private DoubleProperty order;
     private DoubleProperty width;
     private DoubleProperty height;
-    
+    //private Image image;
+    ImageView imageView;
 
     public KiSection() {
         title = "";
-        
+        imageView = new ImageView();
+        //Image it=new Image(this.getClass().getResourceAsStream("section.png"));
+        //System.out.println(it.getHeight());
+        //imageView.setImage(it);
+        //image = null;
         order = new DoubleProperty(0);
         width = new DoubleProperty(100);
         height = new DoubleProperty(60);
-        
+
         glass = new KiGlass().width(width).height(height);
         glass.node().translateXProperty().bind(width.add(8).multiply(order));
         
+        image(new Image(this.getClass().getResourceAsStream("section.png")));
+
     }
 
     public KiSection title(String it) {
@@ -51,16 +58,28 @@ public class KiSection {
         width.bind(it);
         return this;
     }
- public KiSection height(DoubleProperty it) {
+
+    public KiSection height(DoubleProperty it) {
         height.bind(it);
         return this;
     }
-  public KiSection onSelect(KiJob it) {
-       glass.onSelect(it);
+
+    public KiSection onSelect(KiJob it) {
+        glass.onSelect(it);
         return this;
     }
+
     public KiSection order(int it) {
         order.set(it);
+        return this;
+    }
+
+    public KiSection image(Image it) {
+        //order.set(it);
+
+
+        imageView.setImage(it);
+        glass.content(imageView);
         return this;
     }
 
