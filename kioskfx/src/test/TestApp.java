@@ -80,16 +80,36 @@ public class TestApp extends Application {
         root.getChildren().add(menu.node());
         //menu.node().setTranslateX(50);
         //menu.node().setTranslateY(50);
-        menu.width(primaryStage.widthProperty());
-        menu.height(primaryStage.heightProperty());
+        DoubleProperty w=new DoubleProperty();
+        w.bind(primaryStage.widthProperty().subtract(100));
+        DoubleProperty h=new DoubleProperty();
+        h.bind(primaryStage.heightProperty().subtract(100));
+        menu.width(w);
+        menu.height(h);
+        menu.node().setTranslateX(50);
+        menu.node().setTranslateY(50);
 
 
         primaryStage.setScene(scene);
         primaryStage.setVisible(true);
 
         menu.section(new KiSection().title("First").image(new Image(this.getClass().getResourceAsStream("info.png"))));
-        menu.section(new KiSection().title("Secont"));
-        menu.section(new KiSection().title("Third"));
-        menu.iconWidth(200).iconHeight(150).leftMargin(300).topMargin(50);
+        menu.section(new KiSection().title("Secont").image(new Image(this.getClass().getResourceAsStream("color.png"))));
+        menu.section(new KiSection().title("Third").image(new Image(this.getClass().getResourceAsStream("image.png"))));
+        menu.section(new KiSection().title("Fourth").image(new Image(this.getClass().getResourceAsStream("size.png"))));
+        menu.section(new KiSection().title("Fifth").image(new Image(this.getClass().getResourceAsStream("other.png"))));
+        menu.iconWidth(500).iconHeight(150).leftMargin(300).topMargin(50);
+        menu.iconWidth(200);
+
+
+
+        final IntegerProperty it = new IntegerProperty(0);
+        menu.currentSection(it);
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+
+            public void run() {
+                System.out.println("current " + it.get());
+            }
+        });
     }
 }
