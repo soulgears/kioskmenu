@@ -29,12 +29,14 @@ public class KiSection {
     private DoubleProperty width;
     private DoubleProperty height;
     //private Image image;
-    ImageView imageView;
+    private ImageView imageView;
     private DoubleProperty opacity;
+    private Vector <KiAction>actions;
     
     public KiSection() {
         title = "";
         imageView = new ImageView();
+        actions=new  Vector <KiAction>();
         //Image it=new Image(this.getClass().getResourceAsStream("section.png"));
         //System.out.println(it.getHeight());
         //imageView.setImage(it);
@@ -50,9 +52,12 @@ public class KiSection {
         image(new Image(this.getClass().getResourceAsStream("section.png")));
         
     }
-
+public KiSection action(KiAction it) {
+        actions.add(it);
+        return this;
+    }
     public KiSection opacity(double nn) {
-        System.out.println(nn);
+        //System.out.println(nn);
         opacity.set(nn);
         return this;
     }

@@ -135,7 +135,7 @@ public class KiMenu {
     }
 
     private void setFar() {
-        System.out.println("far");
+        //System.out.println("far");
         double rtsz = 1.0 / ((0.0 + width.get() - leftMargin.get()) / iconWidth.get());
         double ltsz = 1.0 / ((0.0 + leftMargin.get() + iconWidth.get()) / iconWidth.get());
         for (int i = 0; i < sections.size(); i++) {
@@ -294,7 +294,7 @@ public class KiMenu {
 
         // move(0);
         currentSection.set(0);
-
+        this.setFar();
         return this;
     }
 }

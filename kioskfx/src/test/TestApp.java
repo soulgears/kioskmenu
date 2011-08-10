@@ -93,11 +93,11 @@ public class TestApp extends Application {
         primaryStage.setScene(scene);
         primaryStage.setVisible(true);
 
-        menu.section(new KiSection().title("First").image(new Image(this.getClass().getResourceAsStream("info.png"))));
-        menu.section(new KiSection().title("Secont").image(new Image(this.getClass().getResourceAsStream("color.png"))));
-        menu.section(new KiSection().title("Third").image(new Image(this.getClass().getResourceAsStream("image.png"))));
-        menu.section(new KiSection().title("Fourth").image(new Image(this.getClass().getResourceAsStream("size.png"))));
-        menu.section(new KiSection().title("Fifth").image(new Image(this.getClass().getResourceAsStream("other.png"))));
+        menu.section(new KiSection().title("First").image(new Image(this.getClass().getResourceAsStream("info.png"))).action(new KiAction().title("1a")).action(new KiAction().title("2a")));
+        menu.section(new KiSection().title("Secont").image(new Image(this.getClass().getResourceAsStream("color.png"))).action(new KiAction().title("1b")).action(new KiAction().title("2b")));
+        menu.section(new KiSection().title("Third").image(new Image(this.getClass().getResourceAsStream("image.png"))).action(new KiAction().title("1c")).action(new KiAction().title("2c")));
+        menu.section(new KiSection().title("Fourth").image(new Image(this.getClass().getResourceAsStream("size.png"))).action(new KiAction().title("1d")).action(new KiAction().title("2d")));
+        menu.section(new KiSection().title("Fifth").image(new Image(this.getClass().getResourceAsStream("other.png"))).action(new KiAction().title("1e")).action(new KiAction().title("2e")));
         menu.iconWidth(500).iconHeight(150).leftMargin(300).topMargin(50);
         menu.iconWidth(200);
 
