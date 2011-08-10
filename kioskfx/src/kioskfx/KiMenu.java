@@ -45,6 +45,7 @@ public class KiMenu {
     private Node node;
     private Vector<KiSection> sections;
     private Group sectionsGroup;
+    private Group actionsGroup;
     // private DoubleProperty currentMargin;
     private DoubleProperty topMargin;
     private DoubleProperty width;
@@ -100,11 +101,12 @@ public class KiMenu {
         root.getChildren().add(label);
         sectionsGroup = new Group();
         sectionsGroup.translateXProperty().bind(iconWidth.add(16).multiply(currentSection).negate().add(leftMargin));
-
+actionsGroup = new Group();
         // currentSection.multiply(sectionWidth).
         // leftMargin);
         sectionsGroup.translateYProperty().bind(topMargin);
         root.getChildren().add(sectionsGroup);
+        root.getChildren().add(actionsGroup);
         addWatchers();
 
 //      currentSection.set(0);
