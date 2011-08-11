@@ -80,9 +80,9 @@ public class TestApp extends Application {
         root.getChildren().add(menu.node());
         //menu.node().setTranslateX(50);
         //menu.node().setTranslateY(50);
-        SimpleDoubleProperty w=new SimpleDoubleProperty();
+        SimpleDoubleProperty w = new SimpleDoubleProperty();
         w.bind(primaryStage.widthProperty().subtract(100));
-        SimpleDoubleProperty h=new SimpleDoubleProperty();
+        SimpleDoubleProperty h = new SimpleDoubleProperty();
         h.bind(primaryStage.heightProperty().subtract(100));
         menu.width(w);
         menu.height(h);
@@ -93,17 +93,21 @@ public class TestApp extends Application {
         primaryStage.setScene(scene);
         primaryStage.setVisible(true);
 
-        menu.section(new KiSection().title("First").image(new Image(this.getClass().getResourceAsStream("info.png"))).action(new KiAction().title("1a")).action(new KiAction().title("2a")));
-        menu.section(new KiSection().title("Secont").image(new Image(this.getClass().getResourceAsStream("color.png"))).action(new KiAction().title("1b")).action(new KiAction().title("2b")));
-        menu.section(new KiSection().title("Third").image(new Image(this.getClass().getResourceAsStream("image.png"))).action(new KiAction().title("1c")).action(new KiAction().title("2c")));
-        menu.section(new KiSection().title("Fourth").image(new Image(this.getClass().getResourceAsStream("size.png"))).action(new KiAction().title("1d")).action(new KiAction().title("2d")));
-        menu.section(new KiSection().title("Fifth").image(new Image(this.getClass().getResourceAsStream("other.png"))).action(new KiAction().title("1e")).action(new KiAction().title("2e")));
+        menu.section(new KiSection().title("First").image(new Image(this.getClass().getResourceAsStream("info.png"))).action(new KiAction().title("1as srt")).action(new KiAction().title("2asser bsth")));
+        menu.section(new KiSection().title("Второй")
+                //.image(new Image(this.getClass().getResourceAsStream("color.png")))
+                .action(new KiAction().title("1baerh aerh")).action(new KiAction().title("2bserth t")));
+        menu.section(new KiSection().title("Third").image(new Image(this.getClass().getResourceAsStream("image.png"))).action(new KiAction().title("1csth sdrn")).action(new KiAction().title("2cbsetb st")));
+        menu.section(new KiSection().title("Fourth").image(new Image(this.getClass().getResourceAsStream("size.png"))).action(new KiAction().title("1dsrtbn s5th")).action(new KiAction().title("2ddejrt6yj ")));
+        menu.section(new KiSection().title("Fifth").image(new Image(this.getClass().getResourceAsStream("other.png"))).action(new KiAction().title("1esefb ")).action(new KiAction().title("2esdrgn srt")));
         menu.iconWidth(500).iconHeight(150).leftMargin(300).topMargin(50);
         menu.iconWidth(200);
 
 
 
         final SimpleIntegerProperty it = new SimpleIntegerProperty(0);
+        it.set(0);
+        it.set(2);
         menu.currentSection(it);
         Runtime.getRuntime().addShutdownHook(new Thread() {
 
@@ -111,5 +115,30 @@ public class TestApp extends Application {
                 System.out.println("current " + it.get());
             }
         });
+
+/*
+        SimpleDoubleProperty n = new SimpleDoubleProperty(0);
+        n.addListener(new ChangeListener<Number>() {
+
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                System.out.println("changed "+oldValue + " -> " + newValue);
+            }
+        });
+        SimpleDoubleProperty other = new SimpleDoubleProperty(0);
+        n.bindBidirectional(other);
+        System.out.println(0);
+        n.set(0);
+        System.out.println(1);
+        n.set(1);
+        System.out.println(2);
+        n.set(2);
+        System.out.println(-1);
+        n.set(-1);
+        System.out.println(0);
+        n.set(0);
+        System.out.println(1);
+        n.set(1);
+        System.out.println(2);
+        n.set(2);*/
     }
 }

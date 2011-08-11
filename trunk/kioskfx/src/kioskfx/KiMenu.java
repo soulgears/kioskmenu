@@ -31,6 +31,7 @@ import javafx.util.*;
 //~--- JDK imports ------------------------------------------------------------
 
 import java.util.*;
+import javafx.beans.*;
 
 public class KiMenu {
 
@@ -49,6 +50,7 @@ public class KiMenu {
     // private DoubleProperty currentMargin;
     private SimpleDoubleProperty topMargin;
     private SimpleDoubleProperty width;
+    //Polygon polygon;
 
     public KiMenu() {
         width = new SimpleDoubleProperty(900);
@@ -89,7 +91,9 @@ public class KiMenu {
         fog.setFill(getFogFill());
         root.getChildren().add(fog);
         label = new Text();
-        label.setFont(new Font("Verdana", 90));
+        Font font = Font.loadFont(this.getClass().getResourceAsStream("font.ttf"), 120);
+        label.setFont(font);
+        //new Font("Verdana", 90));
 
         // label.setTranslateX(300);
         label.setTranslateY(0);
@@ -99,9 +103,20 @@ public class KiMenu {
         label.setFill(Color.web("#ffffff66"));
         label.translateXProperty().bind(leftMargin);
         root.getChildren().add(label);
+        /*
+        polygon = new Polygon();
+        Stop[] st = new Stop[]{new Stop(0, Color.web("#ffffff33")), new Stop(1, Color.web("#ffffff00"))};
+        LinearGradient gr = new LinearGradient(0, 0, 0, 0.5, true, CycleMethod.NO_CYCLE, st);
+        polygon.setFill(gr);
+         */
+        //root.getChildren().add(polygon);
+
+
         sectionsGroup = new Group();
         sectionsGroup.translateXProperty().bind(iconWidth.add(16).multiply(currentSection).negate().add(leftMargin));
-actionsGroup = new Group();
+        actionsGroup = new Group();
+        actionsGroup.translateXProperty().bind(leftMargin);
+        actionsGroup.translateYProperty().bind(topMargin.add(iconHeight).add(16));
         // currentSection.multiply(sectionWidth).
         // leftMargin);
         sectionsGroup.translateYProperty().bind(topMargin);
@@ -120,8 +135,18 @@ actionsGroup = new Group();
     }
 
     public KiMenu currentSection(IntegerProperty it) {
-        this.currentSection.bindBidirectional(it);
-
+        //System.out.println(it);
+        //this.currentSection.bindBidirectional(it);
+        /*it.addListener(new ChangeListener () {
+        
+        public void invalidated(javafx.beans.Observable observable) {
+        System.out.println(observable);
+        }
+        
+        public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+        System.out.println(observable);
+        }
+        });*/
         return this;
     }
 
@@ -175,27 +200,25 @@ actionsGroup = new Group();
 
     void addWatchers() {
 
-        /*
-         * width.addListener(new InvalidationListener<Number>() {
-         *
-         * @Override
-         * public void invalidated(ObservableValue<? extends Number> observable) {
-         * adjust();
-         * }
-         * });
-         * height.addListener(new InvalidationListener<Number>() {
-         *
-         * @Override
-         * public void invalidated(ObservableValue<? extends Number> observable) {
-         * adjust();
-         * }
-         * });
-         */
+
+        width.addListener(new InvalidationListener() {
+
+            public void invalidated(javafx.beans.Observable observable) {
+                adjust();
+            }
+        });
+        height.addListener(new InvalidationListener() {
+
+            public void invalidated(javafx.beans.Observable observable) {
+                adjust();
+            }
+        });
+
         currentSection.addListener(new ChangeListener<Number>() {
 
-
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                 showCurrent();
+                //System.out.println("changed "+oldValue+" to "+newValue);
+                showCurrent();
             }
         });
     }
@@ -222,6 +245,8 @@ actionsGroup = new Group();
          * }
          */
         // System.out.println(scaleWidth + "/" + scaleHeight);
+        //polygon.getPoints().clear();
+        //polygon.getPoints().addAll(new Double[]{0.0, 0.0, width.get()/3, 0.0, width.get()/5, height.get(),0.0, height.get()});
     }
 
     public KiMenu width(DoubleProperty nn) {
@@ -268,10 +293,18 @@ actionsGroup = new Group();
 
     private void showCurrent() {
 
-        // System.out.println(nn);
+        // System.out.println("show "+currentSection.get());
         if (sections.size() > currentSection.get()) {
             label.setText(sections.get(currentSection.get()).title());
             this.setFar();
+            this.actionsGroup.getChildren().clear();
+            KiSection s = this.sections.get(currentSection.get());
+            for (int i = 0; i < s.actions().size(); i++) {
+
+                KiAction a = s.actions().get(i);
+                this.actionsGroup.getChildren().add(a.node());
+                //System.out.println(a.title());
+            }
         }
     }
 
@@ -284,7 +317,10 @@ actionsGroup = new Group();
 
             @Override
             public void start() {
+                //System.out.println("set "+n+": "+currentSection.get());
                 currentSection.set(n);
+                //System.out.println("now "+currentSection.get());
+
             }
         };
 

@@ -53,8 +53,13 @@ public class KiSection {
         
     }
 public KiSection action(KiAction it) {
+    it.order(actions.size());
         actions.add(it);
         return this;
+    }
+public Vector <KiAction> actions() {
+        
+        return actions;
     }
     public KiSection opacity(double nn) {
         //System.out.println(nn);
