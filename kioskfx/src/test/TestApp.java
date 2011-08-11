@@ -80,9 +80,9 @@ public class TestApp extends Application {
         root.getChildren().add(menu.node());
         //menu.node().setTranslateX(50);
         //menu.node().setTranslateY(50);
-        DoubleProperty w=new DoubleProperty();
+        SimpleDoubleProperty w=new SimpleDoubleProperty();
         w.bind(primaryStage.widthProperty().subtract(100));
-        DoubleProperty h=new DoubleProperty();
+        SimpleDoubleProperty h=new SimpleDoubleProperty();
         h.bind(primaryStage.heightProperty().subtract(100));
         menu.width(w);
         menu.height(h);
@@ -103,7 +103,7 @@ public class TestApp extends Application {
 
 
 
-        final IntegerProperty it = new IntegerProperty(0);
+        final SimpleIntegerProperty it = new SimpleIntegerProperty(0);
         menu.currentSection(it);
         Runtime.getRuntime().addShutdownHook(new Thread() {
 
