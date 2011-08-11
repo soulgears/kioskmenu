@@ -38,7 +38,7 @@ public class KiAction {
         imageView = new ImageView();
         order = new SimpleDoubleProperty(0);
         height = new SimpleDoubleProperty(70);
-        opacity = new SimpleDoubleProperty(0.5);
+        opacity = new SimpleDoubleProperty(0.7);
         margin = height.get() + 8;
 
         Group root = new Group();
@@ -70,7 +70,7 @@ public class KiAction {
             @Override
             public void handle(MouseEvent event) {
                 if (onSelect != null) {
-                    opacity.set(0.5);
+                    opacity.set(0.1);
                     onSelect.start();
                 }
             }
@@ -84,7 +84,7 @@ public class KiAction {
                 if (node.isHover()) {
                     opacity.set(1.0);
                 } else {
-                    opacity.set(0.5);
+                    opacity.set(0.7);
                 }
             }
         });
