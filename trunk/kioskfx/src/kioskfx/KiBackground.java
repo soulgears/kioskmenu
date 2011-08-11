@@ -23,30 +23,30 @@ import javafx.scene.text.*;
 
 public class KiBackground {
 
-    private DoubleProperty height;
-    private DoubleProperty width;
+    private SimpleDoubleProperty height;
+    private SimpleDoubleProperty width;
     private ImageView imageView;
 
     public KiBackground() {
-        width = new DoubleProperty(300);
-        height = new DoubleProperty(200);
+        width = new SimpleDoubleProperty(300);
+        height = new SimpleDoubleProperty(200);
         imageView = new ImageView();
         imageView.setPreserveRatio(true);
         addWatchers();
     }
 
     private void addWatchers() {
-        width.addListener(new InvalidationListener<Number>() {
+        width.addListener(new ChangeListener<Number>() {
 
-            @Override
-            public void invalidated(ObservableValue<? extends Number> observable) {
+   
+
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 adjust();
             }
         });
-        height.addListener(new InvalidationListener<Number>() {
+        height.addListener(new ChangeListener<Number>() {
 
-            @Override
-            public void invalidated(ObservableValue<? extends Number> observable) {
+           public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 adjust();
             }
         });

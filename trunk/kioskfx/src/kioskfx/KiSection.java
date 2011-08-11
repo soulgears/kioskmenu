@@ -25,12 +25,12 @@ public class KiSection {
     
     private String title;
     private KiGlass glass;
-    private DoubleProperty order;
-    private DoubleProperty width;
-    private DoubleProperty height;
+    private SimpleDoubleProperty order;
+    private SimpleDoubleProperty width;
+    private SimpleDoubleProperty height;
     //private Image image;
     private ImageView imageView;
-    private DoubleProperty opacity;
+    private SimpleDoubleProperty opacity;
     private Vector <KiAction>actions;
     
     public KiSection() {
@@ -41,10 +41,10 @@ public class KiSection {
         //System.out.println(it.getHeight());
         //imageView.setImage(it);
         //image = null;
-        order = new DoubleProperty(0);
-        width = new DoubleProperty(100);
-        height = new DoubleProperty(60);
-        opacity = new DoubleProperty(1.0);
+        order = new SimpleDoubleProperty(0);
+        width = new SimpleDoubleProperty(100);
+        height = new SimpleDoubleProperty(60);
+        opacity = new SimpleDoubleProperty(1.0);
         
         glass = new KiGlass().width(width).height(height).opacity(opacity);
         glass.node().translateXProperty().bind(width.add(16).multiply(order));

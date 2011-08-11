@@ -10,6 +10,7 @@ import javafx.stage.*;
 import javafx.animation.*;
 import javafx.util.*;
 import java.util.*;
+import javafx.beans.*;
 import javafx.scene.image.*;
 import javafx.scene.shape.*;
 import javafx.beans.property.*;
@@ -22,9 +23,9 @@ import javafx.scene.effect.*;
 
 public class KiGlass {
 
-    private DoubleProperty width;
-    private DoubleProperty opacity;
-    private DoubleProperty height;
+    private SimpleDoubleProperty width;
+    private SimpleDoubleProperty opacity;
+    private SimpleDoubleProperty height;
     private Node node;
     private Node content;
     private KiJob onSelect;
@@ -33,14 +34,14 @@ public class KiGlass {
     private Group shadowGroup;
     //private double glassOpacity;
     //private boolean isFocused;
-    private BooleanProperty active;
+    private SimpleBooleanProperty active;
     Group backGroup;
 
     public KiGlass() {
-        width = new DoubleProperty(90);
-        height = new DoubleProperty(60);
-        opacity = new DoubleProperty(0.99);
-        active = new BooleanProperty(false);
+        width = new SimpleDoubleProperty(90);
+        height = new SimpleDoubleProperty(60);
+        opacity = new SimpleDoubleProperty(0.99);
+        active = new SimpleBooleanProperty(false);
 
         //glassOpacity = 0.1;
         //isFocused = false;
@@ -110,31 +111,27 @@ public class KiGlass {
                 adjust();
             }
         });
-        opacity.addListener(new InvalidationListener<Number>() {
+        opacity.addListener(new ChangeListener<Number>() {
 
-            @Override
-            public void invalidated(ObservableValue<? extends Number> observable) {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 adjust();
             }
         });
-        width.addListener(new InvalidationListener<Number>() {
+        width.addListener(new ChangeListener<Number>() {
 
-            @Override
-            public void invalidated(ObservableValue<? extends Number> observable) {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 adjust();
             }
         });
-        height.addListener(new InvalidationListener<Number>() {
+        height.addListener(new ChangeListener<Number>() {
 
-            @Override
-            public void invalidated(ObservableValue<? extends Number> observable) {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 adjust();
             }
         });
-        active.addListener(new InvalidationListener<Boolean>() {
+        active.addListener(new ChangeListener<Boolean>() {
 
-            @Override
-            public void invalidated(ObservableValue<? extends Boolean> observable) {
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 adjust();
             }
         });
@@ -142,10 +139,9 @@ public class KiGlass {
         root.getChildren().add(backGroup);
         contentGroup = new Group();
         shadowGroup = new Group();
-        contentGroup.boundsInLocalProperty().addListener(new InvalidationListener<Bounds>() {
+        contentGroup.boundsInLocalProperty().addListener(new ChangeListener<Bounds>() {
 
-            @Override
-            public void invalidated(ObservableValue<? extends Bounds> observable) {
+            public void changed(ObservableValue<? extends Bounds> observable, Bounds oldValue, Bounds newValue) {
                 adjust();
             }
         });

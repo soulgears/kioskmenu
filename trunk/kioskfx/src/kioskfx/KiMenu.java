@@ -34,31 +34,31 @@ import java.util.*;
 
 public class KiMenu {
 
-    private IntegerProperty currentSection;
-    private ObjectProperty<Color> fogColor;
-    private DoubleProperty height;
-    private DoubleProperty iconHeight;
-    private DoubleProperty iconWidth;
+    private SimpleIntegerProperty currentSection;
+    private SimpleObjectProperty<Color> fogColor;
+    private SimpleDoubleProperty height;
+    private SimpleDoubleProperty iconHeight;
+    private SimpleDoubleProperty iconWidth;
     // private ImageView imageView;
     private Text label;
-    private DoubleProperty leftMargin;
+    private SimpleDoubleProperty leftMargin;
     private Node node;
     private Vector<KiSection> sections;
     private Group sectionsGroup;
     private Group actionsGroup;
     // private DoubleProperty currentMargin;
-    private DoubleProperty topMargin;
-    private DoubleProperty width;
+    private SimpleDoubleProperty topMargin;
+    private SimpleDoubleProperty width;
 
     public KiMenu() {
-        width = new DoubleProperty(900);
-        height = new DoubleProperty(600);
-        fogColor = new ObjectProperty<Color>(Color.web("#000000"));
-        iconWidth = new DoubleProperty(150);
-        iconHeight = new DoubleProperty(100);
-        leftMargin = new DoubleProperty(100);
-        topMargin = new DoubleProperty(100);
-        currentSection = new IntegerProperty(-1);
+        width = new SimpleDoubleProperty(900);
+        height = new SimpleDoubleProperty(600);
+        fogColor = new SimpleObjectProperty<Color>(Color.web("#000000"));
+        iconWidth = new SimpleDoubleProperty(150);
+        iconHeight = new SimpleDoubleProperty(100);
+        leftMargin = new SimpleDoubleProperty(100);
+        topMargin = new SimpleDoubleProperty(100);
+        currentSection = new SimpleIntegerProperty(-1);
 
         Group root = new Group();
 
@@ -191,11 +191,11 @@ actionsGroup = new Group();
          * }
          * });
          */
-        currentSection.addListener(new InvalidationListener<Number>() {
+        currentSection.addListener(new ChangeListener<Number>() {
 
-            @Override
-            public void invalidated(ObservableValue<? extends Number> observable) {
-                showCurrent();
+
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                 showCurrent();
             }
         });
     }
