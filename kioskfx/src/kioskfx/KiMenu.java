@@ -80,8 +80,12 @@ public class KiMenu {
         // defaultImageView.fitWidthProperty().bind(width);
         // imageView.setPreserveRatio(true);
         root.getChildren().add(
-                new KiBackground().height(height).width(width).image(
-                new Image(this.getClass().getResourceAsStream("background.jpg"))).node());
+                new KiBackground()
+                    .height(height)
+                    .width(width)
+                    .image(new Image(this.getClass().getResourceAsStream("background.jpg")))
+                .node()
+                );
 
         Rectangle fog = new Rectangle();
 
@@ -89,6 +93,7 @@ public class KiMenu {
         fog.heightProperty().bind(height.multiply(2));
         fog.translateYProperty().bind(height.divide(-2.0));
         fog.setFill(getFogFill());
+        fog.setMouseTransparent(true);
         root.getChildren().add(fog);
         label = new Text();
         Font font = Font.loadFont(this.getClass().getResourceAsStream("font.ttf"), 120);

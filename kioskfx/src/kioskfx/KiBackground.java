@@ -25,20 +25,52 @@ public class KiBackground {
 
     private SimpleDoubleProperty height;
     private SimpleDoubleProperty width;
+    //private SimpleDoubleProperty x;
+    //private SimpleDoubleProperty y;
     private ImageView imageView;
+    private Group root;
+    private double wave;
 
     public KiBackground() {
+        wave=32.0;
         width = new SimpleDoubleProperty(300);
         height = new SimpleDoubleProperty(200);
+        //x = new SimpleDoubleProperty(0);
+        //y = new SimpleDoubleProperty(100);
         imageView = new ImageView();
         imageView.setPreserveRatio(true);
+        //imageView.translateXProperty().bind(height);
+        root = new Group();
+        root.getChildren().add(imageView);
+        Rectangle clip = new Rectangle();
+
+        clip.widthProperty().bind(width.subtract(wave));
+        clip.heightProperty().bind(height.subtract(wave));
+        root.setClip(clip);
         addWatchers();
+/*root.setOnMousePressed(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+              System.out.println(                        event);
+            }
+        });*/
+        imageView.setOnMouseMoved(new EventHandler<MouseEvent>() {
+
+            public void handle(MouseEvent event) {
+                //throw new UnsupportedOperationException("Not supported yet.");
+                //System.out.println(                        event);
+                //double x=event.getX();
+                //double y=event.getY();
+                //System.out.println(  x+" : "+y);
+imageView.setTranslateX(-wave*event.getX()/width.get());
+imageView.setTranslateY(-wave*event.getY()/height.get());
+            }
+        });
     }
 
     private void addWatchers() {
         width.addListener(new ChangeListener<Number>() {
-
-   
 
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 adjust();
@@ -46,7 +78,7 @@ public class KiBackground {
         });
         height.addListener(new ChangeListener<Number>() {
 
-           public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 adjust();
             }
         });
@@ -63,12 +95,12 @@ public class KiBackground {
     }
 
     public KiBackground width(DoubleProperty nn) {
-        width.bind(nn);
+        width.bind(nn.add(wave));
         return this;
     }
 
     public KiBackground height(DoubleProperty nn) {
-        height.bind(nn);
+        height.bind(nn.add(wave));
         return this;
     }
 
@@ -78,6 +110,6 @@ public class KiBackground {
     }
 
     public Node node() {
-        return imageView;
+        return root;
     }
 }
