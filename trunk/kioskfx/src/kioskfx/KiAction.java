@@ -29,6 +29,7 @@ public class KiAction {
     private SimpleDoubleProperty order;
     private ImageView imageView;
     private SimpleDoubleProperty height;
+    private SimpleDoubleProperty width;
     private double margin = 0;
     private KiJob onSelect;
     private SimpleDoubleProperty opacity;
@@ -38,17 +39,18 @@ public class KiAction {
         imageView = new ImageView();
         order = new SimpleDoubleProperty(0);
         height = new SimpleDoubleProperty(70);
-        opacity = new SimpleDoubleProperty(0.7);
+         width = new SimpleDoubleProperty(270);
+        opacity = new SimpleDoubleProperty(0.5);
         margin = height.get() + 8;
 
         Group root = new Group();
         label = new Text();
         label.setText(title);
         label.setFill(Color.web("#ffffff"));
-        label.setTextOrigin(VPos.TOP);
-        Font font = Font.loadFont(this.getClass().getResourceAsStream("font.ttf"), 50);
+        //label.setTextOrigin(VPos.TOP);
+        Font font = Font.loadFont(this.getClass().getResourceAsStream("font2.ttf"), 70);
         label.setFont(font);
-        label.translateYProperty().bind(height.add(4).multiply(order));
+        label.translateYProperty().bind(height.add(4).multiply(order).add(height));
         label.setTranslateX(margin);
 
         imageView.translateYProperty().bind(height.add(4).multiply(order));
@@ -62,6 +64,15 @@ public class KiAction {
         //margin=4+imageView.get.boundsInLocalProperty()..getBoundsInLocal().getWidth();
         //.setFitHeight(height.get());
         image(new Image(this.getClass().getResourceAsStream("item.png")));
+        
+        Rectangle r=new Rectangle();
+        r.setFill(Color.web("#ffffff01"));
+        r.setWidth(200);
+        r.heightProperty().bind(height);
+        r.translateYProperty().bind(height.add(4).multiply(order));
+        r.widthProperty().bind(width);
+        
+        root.getChildren().add(r);
         root.getChildren().add(imageView);
         root.getChildren().add(label);
 
@@ -70,7 +81,7 @@ public class KiAction {
             @Override
             public void handle(MouseEvent event) {
                 if (onSelect != null) {
-                    opacity.set(0.1);
+                    //opacity.set(0.1);
                     onSelect.start();
                 }
             }
@@ -84,7 +95,7 @@ public class KiAction {
                 if (node.isHover()) {
                     opacity.set(1.0);
                 } else {
-                    opacity.set(0.7);
+                    opacity.set(0.5);
                 }
             }
         });
