@@ -29,10 +29,10 @@ public class KiBackground {
     //private SimpleDoubleProperty y;
     private ImageView imageView;
     private Group root;
-    private double wave;
+    //private double wave;
 
     public KiBackground() {
-        wave=32.0;
+        //wave = 32.0;
         width = new SimpleDoubleProperty(300);
         height = new SimpleDoubleProperty(200);
         //x = new SimpleDoubleProperty(0);
@@ -44,29 +44,29 @@ public class KiBackground {
         root.getChildren().add(imageView);
         Rectangle clip = new Rectangle();
 
-        clip.widthProperty().bind(width.subtract(wave));
-        clip.heightProperty().bind(height.subtract(wave));
+        clip.widthProperty().bind(width);//.subtract(wave));
+        clip.heightProperty().bind(height);//.subtract(wave));
         root.setClip(clip);
         addWatchers();
-/*root.setOnMousePressed(new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent event) {
-              System.out.println(                        event);
-            }
+        /*root.setOnMousePressed(new EventHandler<MouseEvent>() {
+        
+        @Override
+        public void handle(MouseEvent event) {
+        System.out.println(                        event);
+        }
         });*/
-        imageView.setOnMouseMoved(new EventHandler<MouseEvent>() {
+        /*imageView.setOnMouseMoved(new EventHandler<MouseEvent>() {
 
             public void handle(MouseEvent event) {
                 //throw new UnsupportedOperationException("Not supported yet.");
-                //System.out.println(                        event);
+                System.out.println(event.getSceneX());
                 //double x=event.getX();
                 //double y=event.getY();
                 //System.out.println(  x+" : "+y);
-imageView.setTranslateX(-wave*event.getX()/width.get());
-imageView.setTranslateY(-wave*event.getY()/height.get());
+                imageView.setTranslateX(-wave * event.getX() / width.get());
+                imageView.setTranslateY(-wave * event.getY() / height.get());
             }
-        });
+        });*/
     }
 
     private void addWatchers() {
@@ -95,12 +95,12 @@ imageView.setTranslateY(-wave*event.getY()/height.get());
     }
 
     public KiBackground width(DoubleProperty nn) {
-        width.bind(nn.add(wave));
+        width.bind(nn);//.add(wave));
         return this;
     }
 
     public KiBackground height(DoubleProperty nn) {
-        height.bind(nn.add(wave));
+        height.bind(nn);//.add(wave));
         return this;
     }
 

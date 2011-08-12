@@ -26,7 +26,7 @@ public class TestApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("TestApp");
+        primaryStage.setTitle("Kiosk component demo");
         Group root = new Group();
         Scene scene = new Scene(root);//, 20, 20, Color.web("#333333"));
         scene.setFill(Color.web("#333333"));
@@ -76,11 +76,109 @@ public class TestApp extends Application {
         primaryStage.setVisible(true);
         w.set(150);
          */
-        KiMenu menu = new KiMenu();
+	final KiMenu menu = new KiMenu();
+	KiJob informationAboutComponent=new KiJob(){
+	    @Override public void start() {
+		javax.swing.JOptionPane.showMessageDialog(null
+		    ,"Component version is "+menu.version()
+		    ,"KiskFX"
+		    ,javax.swing.JOptionPane.INFORMATION_MESSAGE);
+		}
+	    };
+	KiJob informationAboutAuthor=new KiJob(){
+	    @Override public void start() {
+		javax.swing.JOptionPane.showMessageDialog(null
+		    ,"Sergey Surikov\nsee http://www.javafx.me"
+		    ,"KiskFX"
+		    ,javax.swing.JOptionPane.INFORMATION_MESSAGE);
+		}
+	    };
+	KiJob backgroundDefault=new KiJob(){
+	    @Override public void start() {
+		menu.image(null);
+		}
+	    };
+	KiJob backgroundCity=new KiJob(){
+	    @Override public void start() {
+		menu.image(new Image(this.getClass().getResourceAsStream("night.jpg")));
+		}
+	    };
+	KiJob backgroundAncient=new KiJob(){
+	    @Override public void start() {
+		menu.image(new Image(this.getClass().getResourceAsStream("egypt.jpg")));
+		}
+	    };
+	KiJob backgroundNature=new KiJob(){
+	    @Override public void start() {
+		menu.image(new Image(this.getClass().getResourceAsStream("tree.jpg")));
+		}
+	    };
+        menu
+	    .width(primaryStage.widthProperty())
+	    .height(primaryStage.heightProperty())
+	    .section(new KiSection().title("Information")
+		.image(new Image(this.getClass().getResourceAsStream("info.png")))
+		.action(new KiAction().title("About component").onSelect(informationAboutComponent))
+		.action(new KiAction().title("About author").onSelect(informationAboutAuthor))
+		)
+	    .section(new KiSection().title("Background")
+		.image(new Image(this.getClass().getResourceAsStream("image.png")))
+		.action(new KiAction().title("Default").onSelect(backgroundDefault))
+		.action(new KiAction().title("City").onSelect(backgroundCity))
+		.action(new KiAction().title("Ancient").onSelect(backgroundAncient))
+		.action(new KiAction().title("Nature").onSelect(backgroundNature))
+		)
+	    .section(new KiSection().title("Kiosk color")
+		.image(new Image(this.getClass().getResourceAsStream("color.png")))
+		.action(new KiAction().title("Default"))
+		.action(new KiAction().title("Blue"))
+		.action(new KiAction().title("Green"))
+		)
+	    .section(new KiSection().title("Position")
+		.image(new Image(this.getClass().getResourceAsStream("other.png")))
+		.action(new KiAction().title("Decrease left margin"))
+		.action(new KiAction().title("Increase left margin"))
+		.action(new KiAction().title("Decrease top margin"))
+		.action(new KiAction().title("Increase top margin"))
+		)
+	    .section(new KiSection().title("Icon size")
+		.image(new Image(this.getClass().getResourceAsStream("size.png")))
+		.action(new KiAction().title("Decrease width"))
+		.action(new KiAction().title("Increase width"))
+		.action(new KiAction().title("Decrease height"))
+		.action(new KiAction().title("Increase height"))
+		)		
+	    .section(new KiSection().title("Item color")
+		.image(new Image(this.getClass().getResourceAsStream("color.png")))
+		.action(new KiAction().title("Default"))
+		.action(new KiAction().title("Yellow"))
+		.action(new KiAction().title("Cyan"))
+		)		
+	    .section(new KiSection().title("Items size")
+		.image(new Image(this.getClass().getResourceAsStream("size.png")))
+		.action(new KiAction().title("Decrease height"))
+		.action(new KiAction().title("Increase height"))
+		)		
+	    .section(new KiSection().title("Title color")
+		.image(new Image(this.getClass().getResourceAsStream("color.png")))
+		.action(new KiAction().title("Default"))
+		.action(new KiAction().title("Yellow"))
+		.action(new KiAction().title("Cyan"))
+		)		
+	    .section(new KiSection().title("Font size")
+		.image(new Image(this.getClass().getResourceAsStream("font.png")))
+		.action(new KiAction().title("Decrease title size"))
+		.action(new KiAction().title("Increase title size"))
+		.action(new KiAction().title("Decrease item size"))
+		.action(new KiAction().title("Increase item size"))
+		)
+	    ;
         root.getChildren().add(menu.node());
+        primaryStage.setScene(scene);
+        primaryStage.setVisible(true);
         //menu.node().setTranslateX(50);
         //menu.node().setTranslateY(50);
-        SimpleDoubleProperty w = new SimpleDoubleProperty();
+        /*SimpleDoubleProperty w = new SimpleDoubleProperty();
         w.bind(primaryStage.widthProperty().subtract(100));
         SimpleDoubleProperty h = new SimpleDoubleProperty();
         h.bind(primaryStage.heightProperty().subtract(100));
@@ -93,9 +191,8 @@ public class TestApp extends Application {
         primaryStage.setScene(scene);
         primaryStage.setVisible(true);
 
-        menu.section(new KiSection().title("First").image(new Image(this.getClass().getResourceAsStream("info.png"))).action(new KiAction().title("1as srt")).action(new KiAction().title("2asser bsth")));
-        menu.section(new KiSection().title("Второй")
-                //.image(new Image(this.getClass().getResourceAsStream("color.png")))
+        menu.section(new KiSection().title("Information").image(new Image(this.getClass().getResourceAsStream("info.png"))).action(new KiAction().title("1as srt")).action(new KiAction().title("2asser bsth")));
+        menu.section(new KiSection().title("Второй") //.image(new Image(this.getClass().getResourceAsStream("color.png")))
                 .action(new KiAction().title("1baerh aerh")).action(new KiAction().title("2bserth t")));
         menu.section(new KiSection().title("Third").image(new Image(this.getClass().getResourceAsStream("image.png"))).action(new KiAction().title("1csth sdrn")).action(new KiAction().title("2cbsetb st")));
         menu.section(new KiSection().title("Fourth").image(new Image(this.getClass().getResourceAsStream("size.png"))).action(new KiAction().title("1dsrtbn s5th")).action(new KiAction().title("2ddejrt6yj ")));
@@ -115,14 +212,14 @@ public class TestApp extends Application {
                 System.out.println("current " + it.get());
             }
         });
-
-/*
+*/
+        /*
         SimpleDoubleProperty n = new SimpleDoubleProperty(0);
         n.addListener(new ChangeListener<Number>() {
-
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                System.out.println("changed "+oldValue + " -> " + newValue);
-            }
+        
+        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+        System.out.println("changed "+oldValue + " -> " + newValue);
+        }
         });
         SimpleDoubleProperty other = new SimpleDoubleProperty(0);
         n.bindBidirectional(other);
