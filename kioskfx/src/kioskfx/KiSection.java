@@ -28,15 +28,18 @@ public class KiSection {
     private SimpleDoubleProperty order;
     private SimpleDoubleProperty width;
     private SimpleDoubleProperty height;
+ private SimpleDoubleProperty    itemHeight;
     //private Image image;
     private ImageView imageView;
     private SimpleDoubleProperty opacity;
     private Vector <KiAction>actions;
+    private SimpleObjectProperty<Color> itemColor;
     
     public KiSection() {
         title = "";
         imageView = new ImageView();
         actions=new  Vector <KiAction>();
+	itemColor = new SimpleObjectProperty<Color>(Color.web("#ffffff"));
         //Image it=new Image(this.getClass().getResourceAsStream("section.png"));
         //System.out.println(it.getHeight());
         //imageView.setImage(it);
@@ -45,6 +48,7 @@ public class KiSection {
         width = new SimpleDoubleProperty(100);
         height = new SimpleDoubleProperty(60);
         opacity = new SimpleDoubleProperty(1.0);
+	itemHeight = new SimpleDoubleProperty(70);
         
         glass = new KiGlass().width(width).height(height).opacity(opacity);
         glass.node().translateXProperty().bind(width.add(16).multiply(order));
@@ -52,11 +56,18 @@ public class KiSection {
         image(new Image(this.getClass().getResourceAsStream("section.png")));
         
     }
+    public KiSection itemHeight(SimpleDoubleProperty it) {
+	itemHeight.bind(it);
+	return this;
+    }
 public KiSection action(KiAction it) {
     it.order(actions.size());
+    it.itemColor(itemColor);
+    it.height(itemHeight);
         actions.add(it);
         return this;
     }
+
 public Vector <KiAction> actions() {
         
         return actions;
@@ -65,6 +76,11 @@ public Vector <KiAction> actions() {
         //System.out.println(nn);
         opacity.set(nn);
         return this;
+    }
+     
+    public KiSection itemColor(SimpleObjectProperty<Color> it) {
+	itemColor.bind(it);
+	return this;
     }
  public KiSection active(boolean nn) {
         glass.active(nn);
