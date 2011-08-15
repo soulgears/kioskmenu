@@ -52,6 +52,7 @@ public class KiMenu {
     private SimpleDoubleProperty width;
     private Image defaultImage;
     //Polygon polygon;
+    Rectangle fog;
 
     public KiMenu() {
 	width = new SimpleDoubleProperty(900);
@@ -84,7 +85,7 @@ public class KiMenu {
 	background = new KiBackground().height(height).width(width).image(defaultImage);
 	root.getChildren().add(background.node());
 
-	Rectangle fog = new Rectangle();
+	fog = new Rectangle();
 
 	fog.widthProperty().bind(width);
 	fog.heightProperty().bind(height.multiply(2));
@@ -146,6 +147,16 @@ public class KiMenu {
 	} else {
 	    background.image(it);
 	}
+	return this;
+    }
+
+    public KiMenu fog(Color it) {
+	if (it == null) {
+	    fogColor.set(Color.web("#000000"));
+	} else {
+	    fogColor.set(it);
+	}
+	fog.setFill(getFogFill());
 	return this;
     }
 
@@ -285,6 +296,14 @@ public class KiMenu {
 	return this;
     }
 
+    public double leftMargin() {
+	return leftMargin.get();
+    }
+
+    public double topMargin() {
+	return topMargin.get();
+    }
+
     public KiMenu topMargin(double nn) {
 	this.topMargin.set(nn);
 
@@ -297,6 +316,16 @@ public class KiMenu {
 
 	// adjust();
 	return this;
+    }
+
+    public double iconHeight() {
+
+	return iconHeight.get();
+    }
+
+    public double iconWidth() {
+
+	return iconWidth.get();
     }
 
     public KiMenu height(DoubleProperty nn) {
