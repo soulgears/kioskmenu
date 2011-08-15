@@ -35,105 +35,122 @@ public class KiAction {
     private SimpleDoubleProperty opacity;
 
     public KiAction() {
-        title = "123";
-        imageView = new ImageView();
-        order = new SimpleDoubleProperty(0);
-        height = new SimpleDoubleProperty(70);
-         width = new SimpleDoubleProperty(270);
-        opacity = new SimpleDoubleProperty(0.5);
-        margin = height.get() + 8;
+	title = "123";
+	imageView = new ImageView();
+	order = new SimpleDoubleProperty(0);
+	height = new SimpleDoubleProperty(70);
+	width = new SimpleDoubleProperty(270);
+	opacity = new SimpleDoubleProperty(0.5);
+	margin = height.get() + 8;
 
-        Group root = new Group();
-        label = new Text();
-        label.setText(title);
-        label.setFill(Color.web("#ffffff"));
-        //label.setTextOrigin(VPos.TOP);
-        Font font = Font.loadFont(this.getClass().getResourceAsStream("font2.ttf"), 70);
-        label.setFont(font);
-        label.translateYProperty().bind(height.add(4).multiply(order).add(height));
-        label.setTranslateX(margin);
+	Group root = new Group();
+	label = new Text();
+	label.setText(title);
+	label.setFill(Color.web("#ffffff"));
+	//label.setTextOrigin(VPos.TOP);
+	Font font = Font.loadFont(this.getClass().getResourceAsStream("font2.ttf"), 70);
+	label.setFont(font);
+	label.translateYProperty().bind(height.add(4).multiply(order).add(height));
+	label.setTranslateX(margin);
 
-        imageView.translateYProperty().bind(height.add(4).multiply(order));
-        imageView.setPreserveRatio(true);
-        imageView.setFitWidth(0);
-        imageView.fitHeightProperty().bind(height);
+	imageView.translateYProperty().bind(height.add(4).multiply(order));
+	imageView.setPreserveRatio(true);
+	imageView.setFitWidth(0);
+	imageView.fitHeightProperty().bind(height);
 
-        label.opacityProperty().bind(opacity);
-        imageView.opacityProperty().bind(opacity);
+	label.opacityProperty().bind(opacity);
+	imageView.opacityProperty().bind(opacity);
 
-        //margin=4+imageView.get.boundsInLocalProperty()..getBoundsInLocal().getWidth();
-        //.setFitHeight(height.get());
-        image(new Image(this.getClass().getResourceAsStream("item.png")));
-        
-        Rectangle r=new Rectangle();
-        r.setFill(Color.web("#ffffff01"));
-        r.setWidth(200);
-        r.heightProperty().bind(height);
-        r.translateYProperty().bind(height.add(4).multiply(order));
-        r.widthProperty().bind(width);
-        
-        root.getChildren().add(r);
-        root.getChildren().add(imageView);
-        root.getChildren().add(label);
+	//margin=4+imageView.get.boundsInLocalProperty()..getBoundsInLocal().getWidth();
+	//.setFitHeight(height.get());
+	image(new Image(this.getClass().getResourceAsStream("item.png")));
 
-        root.setOnMousePressed(new EventHandler<MouseEvent>() {
+	Rectangle r = new Rectangle();
+	r.setFill(Color.web("#ffffff01"));
+	r.setWidth(200);
+	r.heightProperty().bind(height);
+	r.translateYProperty().bind(height.add(4).multiply(order));
+	r.widthProperty().bind(width);
 
-            @Override
-            public void handle(MouseEvent event) {
-                if (onSelect != null) {
-                    //opacity.set(0.1);
-                    onSelect.start();
-                }
-            }
-        });
-        onSelect = new KiJob();
-        root.hoverProperty().addListener(new ChangeListener<Boolean>() {
+	root.getChildren().add(r);
+	root.getChildren().add(imageView);
+	root.getChildren().add(label);
 
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                //adjust();
-                if (node.isHover()) {
-                    opacity.set(1.0);
-                } else {
-                    opacity.set(0.5);
-                }
-            }
-        });
+	root.setOnMousePressed(new EventHandler<MouseEvent>() {
 
-        node = root;
+	    @Override
+	    public void handle(MouseEvent event) {
+		if (onSelect != null) {
+		    //opacity.set(0.1);
+		    new KiTimeline().job(new KiJob() {
 
+			@Override
+			public void start() {
+			    opacity.set(0.1);
+			}
+		    }).job(new KiJob() {
+
+			@Override
+			public void start() {
+			    setHover();
+			}
+		    }).duration(200).start();
+		    onSelect.start();
+		}
+	    }
+	});
+	onSelect = new KiJob();
+	root.hoverProperty().addListener(new ChangeListener<Boolean>() {
+
+	    @Override
+	    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+		//adjust();
+		setHover();
+	    }
+	});
+
+	node = root;
+
+    }
+
+    private void setHover() {
+	if (node.isHover()) {
+	    opacity.set(1.0);
+	} else {
+	    opacity.set(0.5);
+	}
     }
 
     public String title() {
-        return title;
+	return title;
     }
 
     public KiAction onSelect(KiJob it) {
-        onSelect = it;
-        return this;
+	onSelect = it;
+	return this;
     }
 
     public KiAction image(Image it) {
-        //order.set(it);
+	//order.set(it);
 
 
-        imageView.setImage(it);
-        //glass.content(imageView);
-        return this;
+	imageView.setImage(it);
+	//glass.content(imageView);
+	return this;
     }
 
     public KiAction title(String it) {
-        this.title = it;
-        label.setText(title);
-        return this;
+	this.title = it;
+	label.setText(title);
+	return this;
     }
 
     public KiAction order(int it) {
-        this.order.set(it);
-        return this;
+	this.order.set(it);
+	return this;
     }
 
     public Node node() {
-        return node;
+	return node;
     }
 }
