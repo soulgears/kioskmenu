@@ -192,28 +192,13 @@ public class TestApp extends Application {
 		.action(new KiAction()
 		    .title("Default")
 		    .image(new Image(this.getClass().getResourceAsStream("refresh.png")))
-		    .onSelect(new KiJob(){@Override public void start(){
-			javax.swing.JOptionPane.showMessageDialog(null
-			    ,"Ops"
-			    ,"KiskFX"
-			    ,javax.swing.JOptionPane.INFORMATION_MESSAGE);
-			    }}))
+		    .onSelect(new KiJob(){@Override public void start(){menu.itemColor(Color.web("#ffffff"));}}))
 		.action(new KiAction()
 		    .title("Yellow")
-		    .onSelect(new KiJob(){@Override public void start(){
-			javax.swing.JOptionPane.showMessageDialog(null
-			    ,"Ops"
-			    ,"KiskFX"
-			    ,javax.swing.JOptionPane.INFORMATION_MESSAGE);
-			    }}))
+		    .onSelect(new KiJob(){@Override public void start(){menu.itemColor(Color.web("#ffff99"));}}))
 		.action(new KiAction()
 		    .title("Cyan")
-		    .onSelect(new KiJob(){@Override public void start(){
-			javax.swing.JOptionPane.showMessageDialog(null
-			    ,"Ops"
-			    ,"KiskFX"
-			    ,javax.swing.JOptionPane.INFORMATION_MESSAGE);
-			    }}))
+		    .onSelect(new KiJob(){@Override public void start(){menu.itemColor(Color.web("#99ffff"));}}))
 		)		
 	    .section(new KiSection()
 		.title("Items size")
@@ -221,22 +206,11 @@ public class TestApp extends Application {
 		.action(new KiAction()
 		    .title("Decrease height")
 		    .image(new Image(this.getClass().getResourceAsStream("down.png")))
-		    .onSelect(new KiJob(){@Override public void start(){
-			javax.swing.JOptionPane.showMessageDialog(null
-			    ,"Ops"
-			    ,"KiskFX"
-			    ,javax.swing.JOptionPane.INFORMATION_MESSAGE);
-			    }}))
+		    .onSelect(new KiJob(){@Override public void start(){menu.itemHeight(menu.itemHeight()-10);}}))
 		.action(new KiAction()
 		    .title("Increase height")
 		    .image(new Image(this.getClass().getResourceAsStream("up.png")))
-		    .onSelect(new KiJob(){@Override public void start(){
-			javax.swing.JOptionPane.showMessageDialog(null
-			    ,"Ops"
-			    ,"KiskFX"
-			    ,javax.swing.JOptionPane.INFORMATION_MESSAGE);
-			    }}))
-		)		
+		    .onSelect(new KiJob(){@Override public void start(){menu.itemHeight(menu.itemHeight()+10);}}))		)		
 	    .section(new KiSection()
 		.title("Title color")
 		.image(new Image(this.getClass().getResourceAsStream("color.png")))

@@ -51,8 +51,10 @@ public class KiMenu {
     private SimpleDoubleProperty topMargin;
     private SimpleDoubleProperty width;
     private Image defaultImage;
+     private SimpleObjectProperty<Color> itemColor;
     //Polygon polygon;
     Rectangle fog;
+     private SimpleDoubleProperty    itemHeight;
 
     public KiMenu() {
 	width = new SimpleDoubleProperty(900);
@@ -63,9 +65,9 @@ public class KiMenu {
 	leftMargin = new SimpleDoubleProperty(100);
 	topMargin = new SimpleDoubleProperty(100);
 	currentSection = new SimpleIntegerProperty(-1);
-
+itemColor = new SimpleObjectProperty<Color>(Color.web("#ffffff"));
 	Group root = new Group();
-
+itemHeight = new SimpleDoubleProperty(70);
 	/*
 	 * Rectangle t = new Rectangle();
 	 * t.setFill(Color.web("#330000"));
@@ -140,7 +142,14 @@ public class KiMenu {
     public static String version() {
 	return "1.2.1";
     }
-
+public KiMenu itemHeight(double it) {
+	itemHeight.set(it);
+	return this;
+    }
+public double itemHeight() {
+	return itemHeight.get();
+	
+    }
     public KiMenu image(Image it) {
 	if (it == null) {
 	    background.image(defaultImage);
@@ -149,7 +158,10 @@ public class KiMenu {
 	}
 	return this;
     }
-
+  public KiMenu itemColor(Color it) {
+	itemColor.set(it);
+	return this;
+    }
     public KiMenu fog(Color it) {
 	if (it == null) {
 	    fogColor.set(Color.web("#000000"));
@@ -367,7 +379,8 @@ public class KiMenu {
 
 	    }
 	};
-
+it.itemColor(itemColor);
+it.itemHeight(itemHeight);
 	it.order(sections.size()).width(iconWidth).height(iconHeight).onSelect(job);
 
 	// it.image(new Image(this.getClass().getResourceAsStream("section.png")));
