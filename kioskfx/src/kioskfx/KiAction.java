@@ -30,6 +30,7 @@ public class KiAction {
     private ImageView imageView;
     private SimpleDoubleProperty height;
     private SimpleDoubleProperty width;
+    private int size;
     //private double margin = 0;
     private KiJob onSelect;
     private SimpleDoubleProperty opacity;
@@ -42,6 +43,7 @@ public class KiAction {
 	order = new SimpleDoubleProperty(0);
 	height = new SimpleDoubleProperty(70);
 	width = new SimpleDoubleProperty(270);
+        size = 67;
 	opacity = new SimpleDoubleProperty(0.5);
 	//margin = height.get() + 8;
 	
@@ -51,8 +53,8 @@ public class KiAction {
 	//label.setFill(Color.web("#ffffff"));
 	label.fillProperty().bind(itemColor);
 	//label.setTextOrigin(VPos.TOP);
-	Font font = Font.loadFont(this.getClass().getResourceAsStream("font2.ttf"), 70);
-	label.setFont(font);
+	//Font font = Font.loadFont(this.getClass().getResourceAsStream("font2.ttf"), 70);
+	label.setFont(Font.loadFont(this.getClass().getResourceAsStream("font2.ttf"), size));
 	label.translateYProperty().bind(height.add(4).multiply(order).add(height));
 	//label.setTranslateX(margin);
 	label.translateXProperty().bind(height.add(16));
@@ -141,6 +143,13 @@ public class KiAction {
 
     public KiAction itemColor(SimpleObjectProperty<Color> it) {
 	itemColor.bind(it);
+	return this;
+    }
+    
+    
+    public KiAction itemSize(int it) {
+	size=it;
+        label.setFont(Font.loadFont(this.getClass().getResourceAsStream("font2.ttf"), size));
 	return this;
     }
     

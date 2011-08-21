@@ -19,70 +19,18 @@ import javafx.scene.input.*;
 import kioskfx.*;
 
 public class TestApp extends Application {
+    KiMenu menu;
     
     public static void main(String[] args) {
         Application.launch(TestApp.class, args);
     }
-    /*
-    KiJob informationAboutComponent=new KiJob(){
-	@Override public void start() {
-	    javax.swing.JOptionPane.showMessageDialog(null
-		,"Component version is "+menu.version()
-		,"KiskFX"
-		,javax.swing.JOptionPane.INFORMATION_MESSAGE);
-	    }
-	};
-    KiJob informationAboutAuthor=new KiJob(){
-	@Override public void start() {
-	    javax.swing.JOptionPane.showMessageDialog(null
-		,"Sergey Surikov\nsee http://www.javafx.me"
-		,"KiskFX"
-		,javax.swing.JOptionPane.INFORMATION_MESSAGE);
-	    }
-	};
-    KiJob backgroundDefault=new KiJob(){
-	@Override public void start() {
-	    menu.image(null);
-	    }
-	};
-    KiJob backgroundCity=new KiJob(){
-	@Override public void start() {
-	    menu.image(new Image(this.getClass().getResourceAsStream("night.jpg")));
-	    }
-	};
-    KiJob backgroundAncient=new KiJob(){
-	@Override public void start() {
-	    menu.image(new Image(this.getClass().getResourceAsStream("egypt.jpg")));
-	    }
-	};
-    KiJob backgroundNature=new KiJob(){
-	@Override public void start() {
-	    menu.image(new Image(this.getClass().getResourceAsStream("tree.jpg")));
-	    }
-	};
-    KiJob kioskColorDefault=new KiJob(){
-	@Override public void start() {
-	    menu.fog(null);
-	    }
-	};
-    KiJob kioskColorBlue=new KiJob(){
-	@Override public void start() {
-	    menu.fog(Color.web("#000033"));
-	    }
-	};
-    KiJob kioskColorGreen=new KiJob(){
-	@Override public void start() {
-	    menu.fog(Color.web("#003300"));
-	    }
-	};
-    KiJob nope=new KiJob(){
-	@Override public void start() {
-	    javax.swing.JOptionPane.showMessageDialog(null
-		,"Nope"
-		,"KiskFX"
-		,javax.swing.JOptionPane.INFORMATION_MESSAGE);
-	    }
-	};*/
+   
+    void alert(String msg){
+        javax.swing.JOptionPane.showMessageDialog(null
+			    ,msg
+			    ,"KiskFX"
+			    ,javax.swing.JOptionPane.INFORMATION_MESSAGE);
+    }
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Kiosk component demo");
@@ -91,8 +39,7 @@ public class TestApp extends Application {
         scene.setFill(Color.web("#333333"));
         primaryStage.setWidth(1000);
         primaryStage.setHeight(700);
-	final KiMenu menu = new KiMenu();
-        menu
+	menu = new KiMenu()
 	    .width(primaryStage.widthProperty())
 	    .height(primaryStage.heightProperty())
 	    .section(new KiSection()
@@ -100,20 +47,10 @@ public class TestApp extends Application {
 		.image(new Image(this.getClass().getResourceAsStream("info.png")))
 		.action(new KiAction()
 		    .title("About component")
-		    .onSelect(new KiJob(){@Override public void start(){
-			javax.swing.JOptionPane.showMessageDialog(null
-			    ,"Component version is "+menu.version()
-			    ,"KiskFX"
-			    ,javax.swing.JOptionPane.INFORMATION_MESSAGE);
-			    }}))
+		    .onSelect(new KiJob(){@Override public void start(){alert("Component version is "+menu.version());}}))
 		.action(new KiAction()
 		    .title("About author")
-		    .onSelect(new KiJob(){@Override public void start(){
-			javax.swing.JOptionPane.showMessageDialog(null
-			    ,"Sergey Surikov\nsee http://www.javafx.me"
-			    ,"KiskFX"
-			    ,javax.swing.JOptionPane.INFORMATION_MESSAGE);
-			    }}))
+		    .onSelect(new KiJob(){@Override public void start(){alert("Sergey Surikov\nsee http://www.javafx.me");}}))
 		)
 	    .section(new KiSection()
 		.title("Background")
@@ -217,28 +154,13 @@ public class TestApp extends Application {
 		.action(new KiAction()
 		    .title("Default")
 		    .image(new Image(this.getClass().getResourceAsStream("refresh.png")))
-		    .onSelect(new KiJob(){@Override public void start(){
-			javax.swing.JOptionPane.showMessageDialog(null
-			    ,"Ops"
-			    ,"KiskFX"
-			    ,javax.swing.JOptionPane.INFORMATION_MESSAGE);
-			    }}))
+		    .onSelect(new KiJob(){@Override public void start(){menu.titleColor(Color.web("#ffffff"));}}))
 		.action(new KiAction()
 		    .title("Yellow")
-		    .onSelect(new KiJob(){@Override public void start(){
-			javax.swing.JOptionPane.showMessageDialog(null
-			    ,"Ops"
-			    ,"KiskFX"
-			    ,javax.swing.JOptionPane.INFORMATION_MESSAGE);
-			    }}))
+		    .onSelect(new KiJob(){@Override public void start(){menu.titleColor(Color.web("#ffff99"));}}))
 		.action(new KiAction()
 		    .title("Cyan")
-		    .onSelect(new KiJob(){@Override public void start(){
-			javax.swing.JOptionPane.showMessageDialog(null
-			    ,"Ops"
-			    ,"KiskFX"
-			    ,javax.swing.JOptionPane.INFORMATION_MESSAGE);
-			    }}))
+		    .onSelect(new KiJob(){@Override public void start(){menu.titleColor(Color.web("#99ffff"));}}))
 		)		
 	    .section(new KiSection()
 		.title("Font size")
@@ -246,39 +168,19 @@ public class TestApp extends Application {
 		.action(new KiAction()
 		    .title("Decrease title size")
 		    .image(new Image(this.getClass().getResourceAsStream("down.png")))
-		    .onSelect(new KiJob(){@Override public void start(){
-			javax.swing.JOptionPane.showMessageDialog(null
-			    ,"Ops"
-			    ,"KiskFX"
-			    ,javax.swing.JOptionPane.INFORMATION_MESSAGE);
-			    }}))
+		    .onSelect(new KiJob(){@Override public void start(){menu.titleSize(menu.titleSize()-3);}}))
 		.action(new KiAction()
 		    .title("Increase title size")
 		    .image(new Image(this.getClass().getResourceAsStream("up.png")))
-		    .onSelect(new KiJob(){@Override public void start(){
-			javax.swing.JOptionPane.showMessageDialog(null
-			    ,"Ops"
-			    ,"KiskFX"
-			    ,javax.swing.JOptionPane.INFORMATION_MESSAGE);
-			    }}))
+		    .onSelect(new KiJob(){@Override public void start(){menu.titleSize(menu.titleSize()+3);}}))
 		.action(new KiAction()
 		    .title("Decrease item size")
 		    .image(new Image(this.getClass().getResourceAsStream("down.png")))
-		    .onSelect(new KiJob(){@Override public void start(){
-			javax.swing.JOptionPane.showMessageDialog(null
-			    ,"Ops"
-			    ,"KiskFX"
-			    ,javax.swing.JOptionPane.INFORMATION_MESSAGE);
-			    }}))
+		    .onSelect(new KiJob(){@Override public void start(){menu.itemSize(menu.itemSize()-3);}}))
 		.action(new KiAction()
 		    .title("Increase item size")
 		    .image(new Image(this.getClass().getResourceAsStream("up.png")))
-		    .onSelect(new KiJob(){@Override public void start(){
-			javax.swing.JOptionPane.showMessageDialog(null
-			    ,"Ops"
-			    ,"KiskFX"
-			    ,javax.swing.JOptionPane.INFORMATION_MESSAGE);
-			    }}))
+		    .onSelect(new KiJob(){@Override public void start(){menu.itemSize(menu.itemSize()+3);}}))
 		)
 	    ;
         root.getChildren().add(menu.node());
