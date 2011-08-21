@@ -34,8 +34,8 @@ import java.util.*;
 import javafx.beans.*;
 
 public class KiMenu {
-
     private SimpleIntegerProperty currentSection;
+    private SimpleDoubleProperty currentShift;
     private SimpleObjectProperty<Color> fogColor;
     private SimpleDoubleProperty height;
     private SimpleDoubleProperty iconHeight;
@@ -58,7 +58,6 @@ public class KiMenu {
     private SimpleDoubleProperty itemHeight;
     private int titleSize;
     private int itemSize;
-
     public KiMenu() {
         width = new SimpleDoubleProperty(900);
         height = new SimpleDoubleProperty(600);
@@ -68,6 +67,7 @@ public class KiMenu {
         leftMargin = new SimpleDoubleProperty(250);
         topMargin = new SimpleDoubleProperty(150);
         currentSection = new SimpleIntegerProperty(-1);
+        currentShift = new SimpleDoubleProperty(0.0);
         itemColor = new SimpleObjectProperty<Color>(Color.web("#ffffff"));
         titleColor = new SimpleObjectProperty<Color>(Color.web("#ffffff"));
         Group root = new Group();
@@ -125,7 +125,7 @@ public class KiMenu {
 
 
         sectionsGroup = new Group();
-        sectionsGroup.translateXProperty().bind(iconWidth.add(16).multiply(currentSection).negate().add(leftMargin));
+        sectionsGroup.translateXProperty().bind(iconWidth.add(16).multiply(currentShift).negate().add(leftMargin));
         actionsGroup = new Group();
         actionsGroup.translateXProperty().bind(leftMargin);
         actionsGroup.translateYProperty().bind(topMargin.add(iconHeight).add(16));
@@ -145,35 +145,28 @@ public class KiMenu {
         root.setClip(clip);
         node = root;
     }
-
     public static String version() {
         return "v1.2.1 for JavaFX v40";
     }
-
     public KiMenu itemHeight(double it) {
         itemHeight.set(it);
         return this;
     }
-
     public double itemHeight() {
         return itemHeight.get();
 
     }
-
     public KiMenu itemSize(int it) {
-        itemSize=it;
-        for(int i=0;i<this.sections.size();i++){
-        this.sections.get(i).itemSize(it);
+        itemSize = it;
+        for (int i = 0; i < this.sections.size(); i++) {
+            this.sections.get(i).itemSize(it);
         }
         return this;
     }
-
     public int itemSize() {
         return itemSize;
 
     }
-    
-    
     public KiMenu image(Image it) {
         if (it == null) {
             background.image(defaultImage);
@@ -182,27 +175,22 @@ public class KiMenu {
         }
         return this;
     }
-
     public KiMenu itemColor(Color it) {
         itemColor.set(it);
         return this;
     }
-
     public KiMenu titleSize(int it) {
         titleSize = it;
         label.setFont(Font.loadFont(this.getClass().getResourceAsStream("font.ttf"), titleSize));
         return this;
     }
-
     public int titleSize() {
         return titleSize;
     }
-
     public KiMenu titleColor(Color it) {
         titleColor.set(it);
         return this;
     }
-
     public KiMenu fog(Color it) {
         if (it == null) {
             fogColor.set(Color.web("#000000"));
@@ -212,7 +200,6 @@ public class KiMenu {
         fog.setFill(getFogFill());
         return this;
     }
-
     public KiMenu currentSection(IntegerProperty it) {
         //System.out.println(it);
         //this.currentSection.bindBidirectional(it);
@@ -228,7 +215,6 @@ public class KiMenu {
         });*/
         return this;
     }
-
     private Paint getFogFill() {
         Color dark = new Color(fogColor.get().getRed(), fogColor.get().getGreen(), fogColor.get().getBlue(),
                 1.0);
@@ -239,7 +225,6 @@ public class KiMenu {
 
         return gr;
     }
-
     private void setFar() {
         //System.out.println("far");
         double rtsz = 1.0 / ((0.0 + width.get() - leftMargin.get()) / iconWidth.get());
@@ -276,38 +261,32 @@ public class KiMenu {
             }
         }
     }
-
     void addWatchers() {
 
 
         width.addListener(new InvalidationListener() {
-
             public void invalidated(javafx.beans.Observable observable) {
                 adjust();
             }
         });
         height.addListener(new InvalidationListener() {
-
             public void invalidated(javafx.beans.Observable observable) {
                 adjust();
             }
         });
 
         currentSection.addListener(new ChangeListener<Number>() {
-
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 //System.out.println("changed "+oldValue+" to "+newValue);
                 showCurrent();
             }
         });
     }
-
     public Node node() {
         adjust();
 
         return node;
     }
-
     void adjust() {
         // double imageWidth = imageView.getBoundsInLocal().getWidth();
         // double imageHeight = imageView.getBoundsInLocal().getHeight();
@@ -327,93 +306,108 @@ public class KiMenu {
         //polygon.getPoints().clear();
         //polygon.getPoints().addAll(new Double[]{0.0, 0.0, width.get()/3, 0.0, width.get()/5, height.get(),0.0, height.get()});
     }
-
     public KiMenu width(DoubleProperty nn) {
         this.width.bind(nn);
         adjust();
 
         return this;
     }
-
     public KiMenu iconWidth(double nn) {
         this.iconWidth.set(nn);
 
         // adjust();
         return this;
     }
-
     public KiMenu leftMargin(double nn) {
         this.leftMargin.set(nn);
 
         // adjust();
         return this;
     }
-
     public double leftMargin() {
         return leftMargin.get();
     }
-
     public double topMargin() {
         return topMargin.get();
     }
-
     public KiMenu topMargin(double nn) {
         this.topMargin.set(nn);
 
         // adjust();
         return this;
     }
-
     public KiMenu iconHeight(double nn) {
         this.iconHeight.set(nn);
 
         // adjust();
         return this;
     }
-
     public double iconHeight() {
 
         return iconHeight.get();
     }
-
     public double iconWidth() {
 
         return iconWidth.get();
     }
-
     public KiMenu height(DoubleProperty nn) {
         this.height.bind(nn);
         adjust();
 
         return this;
     }
-
     private void showCurrent() {
 
         // System.out.println("show "+currentSection.get());
         if (sections.size() > currentSection.get()) {
             label.setText(sections.get(currentSection.get()).title());
             this.setFar();
-            showActions();
+            moveToCurrent();
+
+
         }
     }
-private void showActions(){
-    this.actionsGroup.getChildren().clear();
-            KiSection s = this.sections.get(currentSection.get());
-            for (int i = 0; i < s.actions().size(); i++) {
-
-                KiAction a = s.actions().get(i);
-                this.actionsGroup.getChildren().add(a.node());
-                //System.out.println(a.title());
+    private void moveToCurrent() {
+        final double delta = (currentShift.get() - currentSection.get()) / 10.0;
+        KiTimeline kt = new KiTimeline().duration(500);
+        KiJob j = new KiJob() {
+            @Override public void start() {
+                currentShift.set(currentShift.get() - delta);
+                actionsGroup.setOpacity(actionsGroup.getOpacity()-0.1);
             }
-}
+        };
+        for (int i = 0; i < 10; i++) {
+            kt.job(j);
+            //System.out.println(this.actionsGroup.getOpacity());
+            
+            
+        }
+        KiJob lj = new KiJob() {
+            @Override public void start() {
+                currentShift.set(currentSection.get());
+                showActions();
+            }
+        };
+        kt.job(lj);
+        kt.start();
+    }
+    private void showActions() {
+        this.actionsGroup.getChildren().clear();
+        this.actionsGroup.setOpacity(1.0);
+        KiSection s = this.sections.get(currentSection.get());
+        for (int i = 0; i < s.actions().size(); i++) {
+
+            KiAction a = s.actions().get(i);
+            this.actionsGroup.getChildren().add(a.node());
+            //System.out.println(a.title());
+        }
+    }
     public KiMenu section(KiSection it) {
 
         // this.width.bind(nn);
         // adjust();
         final int n = sections.size();
         KiJob job = new KiJob() {
-
             @Override
             public void start() {
                 //System.out.println("set "+n+": "+currentSection.get());
