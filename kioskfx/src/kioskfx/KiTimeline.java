@@ -1,5 +1,5 @@
-
 package kioskfx;
+
 import javafx.application.*;
 import javafx.event.*;
 import javafx.event.EventHandler;
@@ -11,8 +11,9 @@ import javafx.stage.*;
 import javafx.animation.*;
 import javafx.util.*;
 import java.util.*;
+
 public class KiTimeline {
-    
+
     private int duration;
     private Vector<KiJob> jobs = new Vector<KiJob>();
 
@@ -42,8 +43,7 @@ public class KiTimeline {
                     job.start();
                 }
             };
-            Duration delay = //Duration.valueOf(step * i);
-                    new Duration(step * i);
+            Duration delay = new Duration(step * i);
             KeyFrame frame = new KeyFrame(delay, handler);
             timeline.getKeyFrames().add(frame);
         }
