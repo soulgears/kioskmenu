@@ -42,7 +42,8 @@ public class KiTimeline {
                     job.start();
                 }
             };
-            Duration delay = Duration.valueOf(step * i);
+            Duration delay = //Duration.valueOf(step * i);
+                    new Duration(step * i);
             KeyFrame frame = new KeyFrame(delay, handler);
             timeline.getKeyFrames().add(frame);
         }
