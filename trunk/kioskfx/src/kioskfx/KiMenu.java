@@ -63,9 +63,9 @@ public class KiMenu {
         height = new SimpleDoubleProperty(600);
         fogColor = new SimpleObjectProperty<Color>(Color.web("#000000"));
         iconWidth = new SimpleDoubleProperty(150);
-        iconHeight = new SimpleDoubleProperty(100);
+        iconHeight = new SimpleDoubleProperty(120);
         leftMargin = new SimpleDoubleProperty(250);
-        topMargin = new SimpleDoubleProperty(150);
+        topMargin = new SimpleDoubleProperty(100);
         currentSection = new SimpleIntegerProperty(-1);
         currentShift = new SimpleDoubleProperty(0.0);
         itemColor = new SimpleObjectProperty<Color>(Color.web("#ffffff"));
